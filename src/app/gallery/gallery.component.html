@@ -1,20 +1,5 @@
 <div class="galleryGrid">
-  <div class="item">
-    <img
-      alt="Blue river (much better in original size - press)"
-      src="http://farm9.static.flickr.com/8305/7893507666_0d25cd9f30.jpg"
-    />
-  </div>
-  <div class="item">
-    <img
-      alt="Blue river (much better in original size - press)"
-      src="http://farm9.static.flickr.com/8305/7893507666_0d25cd9f30.jpg"
-    />
-  </div>
-  <div class="item">
-    <img
-      alt="Blue river (much better in original size - press)"
-      src="http://farm9.static.flickr.com/8305/7893507666_0d25cd9f30.jpg"
-    />
+  <div *ngFor="let image of images$" class="item">
+    <img alt="{{ image.title }}" src="{{ image.url }}" />
   </div>
 </div>

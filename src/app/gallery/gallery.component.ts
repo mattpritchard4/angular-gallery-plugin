@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { DataService } from '../data.service';
 
 @Component({
     selector: 'my-gallery',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryComponent implements OnInit {
 
-    constructor() { }
+    @Input() feed: string;
+
+    images$: Object;
+
+    constructor(private data: DataService) { }
 
     ngOnInit() {
+        this.data.getImages().subscribe(
+            data => this.images$ = data
+        );
     }
 
 }
