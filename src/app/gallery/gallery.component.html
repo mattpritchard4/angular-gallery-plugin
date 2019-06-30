@@ -1,8 +1,14 @@
 <div *ngIf="isPaginated$" class="page-controls">
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
   <p>Items per page:</p>
-  <select (change)="selectChangeHandler($event)" [value]="selectResults$">
+  <select (change)="perPageChangeHandler($event)" [value]="paginationResults$">
     <option *ngFor="let page of pages$" value="{{ page }}">{{ page }} </option>
+  </select>
+</div>
+<div class="sort-controls">
+  <p>Sort by:</p>
+  <select (change)="sortChangeHandler($event)" [value]="sortResults$">
+    <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
   </select>
 </div>
 <div class="galleryGrid">
@@ -10,7 +16,7 @@
     #pageItem
     *ngFor="
       let image of images$
-        | paginate: { itemsPerPage: selectResults$, currentPage: p }
+        | paginate: { itemsPerPage: paginationResults$, currentPage: p }
     "
     class="item"
   >
@@ -19,5 +25,7 @@
       src="{{ image.url }}"
       onError="this.src='assets/fa-image.png';"
     />
+    <p>Title: {{ image.title }}</p>
+    <p>Date: {{ image.date }}</p>
   </div>
 </div>

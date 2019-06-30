@@ -13,10 +13,12 @@ export class GalleryComponent implements OnInit {
     @Input() resultsPerPage: string;
     @Input() pagination: string;
 
-    selectResults$: number;
-    images$: Object;
-    pages$: Array<number>;
+    paginationResults$: number;
+    sortResults$: string;
+    images$: any;
     isPaginated$: boolean;
+    pages$: Array<number>;
+    sorts$: Array<string>;
 
     constructor(private data: DataService) { }
 
@@ -25,12 +27,33 @@ export class GalleryComponent implements OnInit {
             data => this.images$ = data
         );
         this.pages$ = [5, 10, 15, 20];
-        this.selectResults$ = parseInt(this.resultsPerPage, 10);
+        this.sorts$ = ["Select", "Alphabetical", "Date"];
+        this.paginationResults$ = parseInt(this.resultsPerPage, 10);
+        this.sortResults$ = "Select";
         this.isPaginated$ = JSON.parse(this.pagination);
     }
 
-    selectChangeHandler(event: any) {
-        this.selectResults$ = event.target.value;
+    perPageChangeHandler(event: any) {
+        this.paginationResults$ = event.target.value;
     }
 
+    alphaSort() {
+
+    }
+
+    dateSort() {
+
+    }
+
+    sortChangeHandler(event: any) {
+        this.sortResults$ = event.target.value;
+        if (this.sortResults$ === "Alphabetical") {
+            this.images$ =
+                this.images$.sort((left: any, right: any): number => {
+                    if (left.title < right.title) return -1;
+                    if (left.title > right.title) return 1;
+                    return 0;
+                })
+        };
+    }
 }
