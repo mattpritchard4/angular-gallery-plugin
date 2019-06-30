@@ -1,7 +1,16 @@
+<div class="controls">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <p>Items per page:</p>
+  <select (change)="selectChangeHandler($event)" [value]="selectResults$">
+    <option *ngFor="let page of pages$" value="{{ page }}">{{ page }} </option>
+  </select>
+</div>
 <div class="galleryGrid">
   <div
+    #pageItem
     *ngFor="
-      let image of images$ | paginate: { itemsPerPage: 15, currentPage: p }
+      let image of images$
+        | paginate: { itemsPerPage: selectResults$, currentPage: p }
     "
     class="item"
   >
@@ -12,4 +21,3 @@
     />
   </div>
 </div>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
