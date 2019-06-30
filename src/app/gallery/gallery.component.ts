@@ -21,7 +21,7 @@ export class GalleryComponent implements OnInit {
     constructor(private data: DataService) { }
 
     ngOnInit() {
-        this.data.getImages().subscribe(
+        this.data.getImages(this.feed).subscribe(
             data => this.images$ = data
         );
         this.pages$ = [5, 10, 15, 20];
