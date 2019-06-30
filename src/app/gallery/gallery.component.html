@@ -1,5 +1,9 @@
 <div class="galleryGrid">
   <div *ngFor="let image of images$" class="item">
-    <img alt="{{ image.title }}" src="{{ image.url }}" />
+    <img
+      alt="{{ image.title }}"
+      src="{{ image.url }}"
+      onError="this.src='assets/fa-image.png';"
+    />
   </div>
 </div>

@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
 import { DataService } from '../data.service';
 
 @Component({
@@ -21,5 +19,4 @@ export class GalleryComponent implements OnInit {
             data => this.images$ = data
         );
     }
-
 }
