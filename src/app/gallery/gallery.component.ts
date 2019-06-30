@@ -55,5 +55,13 @@ export class GalleryComponent implements OnInit {
                     return 0;
                 })
         };
+        if (this.sortResults$ === "Date") {
+            this.images$ =
+                this.images$.sort((left: any, right: any): number => {
+                    if (Date.parse(left.date) < Date.parse(right.date)) return -1;
+                    if (Date.parse(left.date) > Date.parse(right.date)) return 1;
+                    return 0;
+                })
+        };
     }
 }
