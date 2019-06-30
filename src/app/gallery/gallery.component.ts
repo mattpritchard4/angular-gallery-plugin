@@ -12,11 +12,13 @@ export class GalleryComponent implements OnInit {
     @Input() feed: string;
     @Input() resultsPerPage: string;
     @Input() pagination: string;
+    @Input() sortable: string;
 
     paginationResults$: number;
     sortResults$: string;
     images$: any;
     isPaginated$: boolean;
+    isSortable$: boolean
     pages$: Array<number>;
     sorts$: Array<string>;
 
@@ -31,18 +33,11 @@ export class GalleryComponent implements OnInit {
         this.paginationResults$ = parseInt(this.resultsPerPage, 10);
         this.sortResults$ = "Select";
         this.isPaginated$ = JSON.parse(this.pagination);
+        this.isSortable$ = JSON.parse(this.sortable);
     }
 
     perPageChangeHandler(event: any) {
         this.paginationResults$ = event.target.value;
-    }
-
-    alphaSort() {
-
-    }
-
-    dateSort() {
-
     }
 
     sortChangeHandler(event: any) {
