@@ -1,4 +1,4 @@
-<div class="controls">
+<div *ngIf="isPaginated$" class="page-controls">
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
   <p>Items per page:</p>
   <select (change)="selectChangeHandler($event)" [value]="selectResults$">
