@@ -8,7 +8,7 @@ export class DataService {
 
     constructor(private http: HttpClient) { }
 
-    getImages() {
-        return this.http.get('assets/feed.json')
+    getImages(feed: string) {
+        return this.http.get(feed)
     }
 }

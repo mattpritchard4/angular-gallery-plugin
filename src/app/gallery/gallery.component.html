@@ -1,16 +1,21 @@
 <div *ngIf="isPaginated$" class="page-controls">
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
   <p>Items per page:</p>
-  <select (change)="selectChangeHandler($event)" [value]="selectResults$">
+  <select (change)="perPageChangeHandler($event)" [value]="paginationResults$">
     <option *ngFor="let page of pages$" value="{{ page }}">{{ page }} </option>
+  </select>
+</div>
+<div *ngIf="isSortable$" class="sort-controls">
+  <p>Sort by:</p>
+  <select (change)="sortChangeHandler($event)" [value]="sortResults$">
+    <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
   </select>
 </div>
 <div class="galleryGrid">
   <div
-    #pageItem
     *ngFor="
       let image of images$
-        | paginate: { itemsPerPage: selectResults$, currentPage: p }
+        | paginate: { itemsPerPage: paginationResults$, currentPage: p }
     "
     class="item"
   >
@@ -18,6 +23,41 @@
       alt="{{ image.title }}"
       src="{{ image.url }}"
       onError="this.src='assets/fa-image.png';"
+      (click)="this.showModal(image)"
     />
+    <p>Title: {{ image.title }}</p>
+    <p>Date: {{ image.date | date }}</p>
+  </div>
+  <div
+    class="ui basic modal transition dimmer page visible active"
+    style="display: flex !important; background-color: rgba(0,0,0,.85); width: 100%;"
+    *ngIf="isVisible$"
+  >
+    <div class="ui image header">
+      <img
+        [src]="currentImage$.url"
+        onError="this.src='assets/fa-image.png';"
+      />
+      {{ currentImage$.title }}
+      <br />
+      {{ currentImage$.date }}
+    </div>
+    <div class="actions">
+      <div
+        class="ui green ok inverted button"
+        (click)="this.prevImage(currentImage$)"
+      >
+        Previous
+      </div>
+      <div
+        class="ui green ok inverted button"
+        (click)="this.nextImage(currentImage$)"
+      >
+        Next
+      </div>
+    </div>
+    <div class="ui button" (click)="isVisible$ = !isVisible$">
+      Close
+    </div>
   </div>
 </div>
