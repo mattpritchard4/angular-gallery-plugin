@@ -28,6 +28,7 @@ export class GalleryComponent implements OnInit {
     sorts$: Array<string>;
     currentImage$: object;
     imageIndex: number;
+    slideShowTick: NodeJS.Timer;
 
     constructor(private data: DataService) { }
 
@@ -46,6 +47,7 @@ export class GalleryComponent implements OnInit {
         this.slideShow$ = false;
         this.currentImage$ = null;
         this.imageIndex = 0;
+        this.slideShowTick = null;
     }
 
     perPageChangeHandler(event: any) {
@@ -97,7 +99,10 @@ export class GalleryComponent implements OnInit {
         this.slideShow$ = !this.slideShow$;
         this.currentImage$ = this.images$[this.imageIndex];
         if (this.slideShow$) {
-            setInterval(() => this.nextImage(this.currentImage$), parseInt(this.autoRotateTime, 10) * 1000);
+            this.slideShowTick = setInterval(() => this.nextImage(this.currentImage$), parseInt(this.autoRotateTime, 10) * 1000);
+        }
+        if (this.slideShow$ === false) {
+            clearInterval(this.slideShowTick);
         }
     }
 }
