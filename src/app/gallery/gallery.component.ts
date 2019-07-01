@@ -14,6 +14,7 @@ export class GalleryComponent implements OnInit {
     @Input() pagination: string;
     @Input() sortable: string;
     @Input() search: string;
+    @Input() autoRotateTime: string;
 
     paginationResults$: number;
     sortResults$: string;
@@ -22,6 +23,7 @@ export class GalleryComponent implements OnInit {
     isSortable$: boolean;
     isVisible$: boolean;
     isSearchable$: boolean;
+    slideShow$: boolean;
     pages$: Array<number>;
     sorts$: Array<string>;
     currentImage$: object;
@@ -41,6 +43,7 @@ export class GalleryComponent implements OnInit {
         this.isSortable$ = JSON.parse(this.sortable);
         this.isSearchable$ = JSON.parse(this.search);
         this.isVisible$ = false;
+        this.slideShow$ = false;
         this.currentImage$ = null;
         this.imageIndex = 0;
     }
@@ -88,5 +91,13 @@ export class GalleryComponent implements OnInit {
             this.currentImage$ = this.images$[this.imageIndex - 1];
         }
 
+    }
+
+    toggleSlideshow() {
+        this.slideShow$ = !this.slideShow$;
+        this.currentImage$ = this.images$[this.imageIndex];
+        if (this.slideShow$) {
+            setInterval(() => this.nextImage(this.currentImage$), parseInt(this.autoRotateTime, 10) * 1000);
+        }
     }
 }
