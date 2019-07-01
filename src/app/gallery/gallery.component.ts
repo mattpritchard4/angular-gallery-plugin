@@ -38,7 +38,7 @@ export class GalleryComponent implements OnInit {
         this.isPaginated$ = JSON.parse(this.pagination);
         this.isSortable$ = JSON.parse(this.sortable);
         this.isVisible$ = false;
-        this.currentImage$ = "";
+        this.currentImage$ = null;
         this.imageIndex = 0;
     }
 
