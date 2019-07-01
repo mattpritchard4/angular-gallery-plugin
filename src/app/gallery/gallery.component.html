@@ -1,3 +1,4 @@
+<!-- component controls -->
 <div class="controls">
     <div *ngIf="isPaginated$" class="page-controls">
         <p>ITEMS:</p>
@@ -46,9 +47,9 @@
             </div>
         </div>
     </div>
-    <div *ngIf="slideShow$">
-        <img [alt]="this.currentImage$.title" [src]="this.currentImage$.url" onError="this.src='assets/fa-image.png';"/>
-        <button class="ui button" (click)="this.toggleSlideshow()">Close</button>
+    <div *ngIf="slideShow$" class="slideshow">
+            <img [alt]="this.currentImage$.title" [src]="this.currentImage$.url" onError="this.src='assets/fa-image.png';"/>
+            <button class="ui button" (click)="this.toggleSlideshow()">Close</button>
   </div>
   <div
     class="ui basic modal transition dimmer page visible active"

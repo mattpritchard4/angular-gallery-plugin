@@ -38,10 +38,19 @@ div.ui.image.header {
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    img {
-        width: 100%;
-        max-height:220px;
+    a {
+        max-height: 220px;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
     }
+}
+
+.slideshow {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 // adjustments for screen sizes
@@ -69,6 +78,15 @@ div.ui.image.header {
 @media screen and (max-width: 768px) {
     div.ui.image.header {
         width: 60%;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    div.ui.image.header {
+        width: 80%;
         img {
             width: 100%;
         }
