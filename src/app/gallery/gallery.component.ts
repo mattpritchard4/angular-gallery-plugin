@@ -28,7 +28,7 @@ export class GalleryComponent implements OnInit {
     sorts$: Array<string>;
     currentImage$: object;
     imageIndex: number;
-    slideShowTick: NodeJS.Timer;
+    slideShowTick: any;
 
     constructor(private data: DataService) { }
 
