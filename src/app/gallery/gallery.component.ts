@@ -37,7 +37,7 @@ export class GalleryComponent implements OnInit {
             data => this.images$ = data
         );
         this.pages$ = [5, 10, 15, 20];
-        this.sorts$ = ["Select", "Alphabetical", "Date: (Newest)"];
+        this.sorts$ = ["Select", "Alphabetical (A-Z)", "Date: (Newest)"];
         this.paginationResults$ = parseInt(this.resultsPerPage, 10);
         this.sortResults$ = "Select";
         this.isPaginated$ = JSON.parse(this.pagination);
@@ -56,7 +56,7 @@ export class GalleryComponent implements OnInit {
 
     sortChangeHandler(event: any) {
         this.sortResults$ = event.target.value;
-        if (this.sortResults$ === "Alphabetical") {
+        if (this.sortResults$ === "Alphabetical (A-Z)") {
             this.images$ =
                 this.images$.sort((left: any, right: any): number => {
                     if (left.title < right.title) return -1;

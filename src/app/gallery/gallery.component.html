@@ -1,43 +1,49 @@
 <div class="controls">
     <div *ngIf="isPaginated$" class="page-controls">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-        <p>Items per page:</p>
-        <select (change)="perPageChangeHandler($event)" [value]="paginationResults$">
+        <p>ITEMS:</p>
+        <select (change)="perPageChangeHandler($event)" [value]="paginationResults$" class="ui fluid normal dropdown">
             <option *ngFor="let page of pages$" value="{{ page }}">{{ page }} </option>
         </select>
     </div>
     <div *ngIf="isSortable$" class="sort-controls">
-        <p>Sort by:</p>
-        <select (change)="sortChangeHandler($event)" [value]="sortResults$">
+        <p>SORT: </p>
+        <select (change)="sortChangeHandler($event)" [value]="sortResults$" class="ui fluid normal dropdown">
             <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
         </select>
     </div>
     <div>
-        <button class="ui button" (click)="this.toggleSlideshow()">Slide Show</button>
+        <button class="ui button blue" (click)="this.toggleSlideshow()">Slide Show</button>
     </div>
-</div>
-
-<div class="galleryGrid">
     <div class="ui search" *ngIf="isSearchable$">
         <p>Search: </p>
         <input class="prompt" type="text" placeholder="Search for an image..." [(ngModel)]="term">
     </div>
-    <div *ngIf="slideShow$ === false">
-        <div 
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<div>
+    <div *ngIf="slideShow$ === false" class="galleryGrid">
+        <div
             *ngFor="
                     let image of images$ | filter:term
                     | paginate: { itemsPerPage: paginationResults$, currentPage: p }
                     "
-            class="item"
+            class="item ui card"
         >
-            <img
-                alt="{{ image.title }}"
-                src="{{ image.url }}"
-                onError="this.src='assets/fa-image.png';"
-                (click)="this.showModal(image)"
-            />
-            <p>Title: {{ image.title }}</p>
-            <p>Date: {{ image.date | date }}</p>
+            <a class="image" href="#" (click)="this.showModal(image)">
+                <img
+                    alt="{{ image.title }}"
+                    src="{{ image.url }}"
+                    onError="this.src='assets/fa-image.png';"
+                />
+            </a>
+            <div class="content">
+                <a class="header">{{ image.title }}</a>
+                <div class="meta">
+                    <a>Date: {{ image.date | date }}</a>
+                </div>
+            </div>
         </div>
     </div>
     <div *ngIf="slideShow$">
@@ -63,7 +69,7 @@
         class="ui green ok inverted button"
         (click)="this.prevImage(currentImage$)"
       >
-        Previous
+        Prev
       </div>
       <div
         class="ui green ok inverted button"
