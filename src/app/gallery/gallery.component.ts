@@ -13,6 +13,7 @@ export class GalleryComponent implements OnInit {
     @Input() resultsPerPage: string;
     @Input() pagination: string;
     @Input() sortable: string;
+    @Input() search: string;
 
     paginationResults$: number;
     sortResults$: string;
@@ -20,6 +21,7 @@ export class GalleryComponent implements OnInit {
     isPaginated$: boolean;
     isSortable$: boolean;
     isVisible$: boolean;
+    isSearchable$: boolean;
     pages$: Array<number>;
     sorts$: Array<string>;
     currentImage$: object;
@@ -37,6 +39,7 @@ export class GalleryComponent implements OnInit {
         this.sortResults$ = "Select";
         this.isPaginated$ = JSON.parse(this.pagination);
         this.isSortable$ = JSON.parse(this.sortable);
+        this.isSearchable$ = JSON.parse(this.search);
         this.isVisible$ = false;
         this.currentImage$ = null;
         this.imageIndex = 0;
