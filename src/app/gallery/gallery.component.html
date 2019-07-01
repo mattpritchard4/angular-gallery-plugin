@@ -13,7 +13,6 @@
 </div>
 <div class="galleryGrid">
   <div
-    #pageItem
     *ngFor="
       let image of images$
         | paginate: { itemsPerPage: paginationResults$, currentPage: p }
@@ -24,8 +23,35 @@
       alt="{{ image.title }}"
       src="{{ image.url }}"
       onError="this.src='assets/fa-image.png';"
+      (click)="this.showModal(image)"
     />
     <p>Title: {{ image.title }}</p>
     <p>Date: {{ image.date | date }}</p>
+  </div>
+  <div
+    class="ui basic modal transition dimmer page visible active"
+    style="display: flex !important; background-color: rgba(0,0,0,.85); width: 100%;"
+    *ngIf="isVisible$"
+  >
+    <div class="ui image header">
+      <img [src]="currentImage$.url" />
+      {{ currentImage$.title }}
+      <br />
+      {{ currentImage$.date }}
+    </div>
+    <div class="actions">
+      <div
+        class="ui red basic cancel inverted button"
+        (click)="this.prevImage(currentImage$)"
+      >
+        Previous
+      </div>
+      <div
+        class="ui green ok inverted button"
+        (click)="this.nextImage(currentImage$)"
+      >
+        Next
+      </div>
+    </div>
   </div>
 </div>
