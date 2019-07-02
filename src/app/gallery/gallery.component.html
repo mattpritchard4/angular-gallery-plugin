@@ -36,7 +36,10 @@
       [(ngModel)]="term"
     />
   </div>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls
+    *ngIf="isPaginated$"
+    (pageChange)="p = $event"
+  ></pagination-controls>
 </div>
 
 <!-- main gallery -->
