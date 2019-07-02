@@ -1,58 +1,83 @@
 <!-- component controls -->
 <div class="controls">
-    <div *ngIf="isPaginated$" class="page-controls">
-        <p>ITEMS:</p>
-        <select (change)="perPageChangeHandler($event)" [value]="paginationResults$" class="ui fluid normal dropdown">
-            <option *ngFor="let page of pages$" value="{{ page }}">{{ page }} </option>
-        </select>
-    </div>
-    <div *ngIf="isSortable$" class="sort-controls">
-        <p>SORT: </p>
-        <select (change)="sortChangeHandler($event)" [value]="sortResults$" class="ui fluid normal dropdown">
-            <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
-        </select>
-    </div>
-    <div>
-        <button class="ui button blue" (click)="this.toggleSlideshow()">Slide Show</button>
-    </div>
-    <div class="ui search" *ngIf="isSearchable$">
-        <p>Search: </p>
-        <input class="prompt" type="text" placeholder="Search for an image..." [(ngModel)]="term">
-    </div>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <div *ngIf="isPaginated$" class="page-controls">
+    <p>ITEMS:</p>
+    <select
+      (change)="perPageChangeHandler($event)"
+      [value]="paginationResults$"
+      class="ui fluid normal dropdown"
+    >
+      <option *ngFor="let page of pages$" value="{{ page }}"
+        >{{ page }}
+      </option>
+    </select>
+  </div>
+  <div *ngIf="isSortable$" class="sort-controls">
+    <p>SORT:</p>
+    <select
+      (change)="sortChangeHandler($event)"
+      [value]="sortResults$"
+      class="ui fluid normal dropdown"
+    >
+      <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
+    </select>
+  </div>
+  <div>
+    <button class="ui button blue" (click)="this.toggleSlideshow()">
+      Slide Show
+    </button>
+  </div>
+  <div class="ui search" *ngIf="isSearchable$">
+    <p>Search:</p>
+    <input
+      class="prompt"
+      type="text"
+      placeholder="Search for an image..."
+      [(ngModel)]="term"
+    />
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
 
 <!-- main gallery -->
 <div>
-    <div *ngIf="slideShow$ === false" class="galleryGrid">
-        <div
-            *ngFor="
-                    let image of images$ | filter:term
-                    | paginate: { itemsPerPage: paginationResults$, currentPage: p }
-                    "
-            class="item ui card"
-        >
-            <a class="image" href="#" (click)="this.showModal(image)">
-                <img
-                    alt="{{ image.title }}"
-                    src="{{ image.url }}"
-                    onError="this.src='assets/fa-image.png';"
-                />
-            </a>
-            <div class="content">
-                <a class="header">{{ image.title }}</a>
-                <div class="meta">
-                    <a>Date: {{ image.date | date }}</a>
-                </div>
-            </div>
+  <div *ngIf="slideShow$ === false" class="galleryGrid">
+    <div
+      *ngFor="
+        let image of images$
+          | filter: term
+          | paginate: { itemsPerPage: paginationResults$, currentPage: p }
+      "
+      class="item ui card"
+    >
+      <a class="image" href="#" (click)="this.showModal(image)">
+        <img
+          alt="{{ image.title }}"
+          src="{{ image.url }}"
+          onError="this.src='assets/fa-image.png';"
+        />
+      </a>
+      <div class="content">
+        <a class="header">{{ image.title }}</a>
+        <div class="meta">
+          <a>Date: {{ image.date | date }}</a>
         </div>
+      </div>
+      <button class="ui button" (click)="this.blackList(this.image)">
+        Delete
+      </button>
     </div>
-    <!--     slideshow -->
-    <div *ngIf="slideShow$" class="slideshow">
-            <img [alt]="this.currentImage$.title" [src]="this.currentImage$.url" onError="this.src='assets/fa-image.png';"/>
-            <button class="ui button" (click)="this.toggleSlideshow()">Close</button>
-    </div>
-    <!--     modal -->
+  </div>
+  <!--     slideshow -->
+  <div *ngIf="slideShow$" class="slideshow">
+    <img
+      [alt]="this.currentImage$.title"
+      [src]="this.currentImage$.url"
+      onError="this.src='assets/fa-image.png';"
+    />
+    <button class="ui button" (click)="this.toggleSlideshow()">Close</button>
+  </div>
+  <!--     modal -->
   <div
     class="ui basic modal transition dimmer page visible active"
     style="display: flex !important; background-color: rgba(0,0,0,.85); width: 100%;"

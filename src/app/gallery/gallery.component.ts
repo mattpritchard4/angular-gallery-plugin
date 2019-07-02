@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'my-gallery',
@@ -29,12 +30,17 @@ export class GalleryComponent implements OnInit {
     currentImage$: object;
     imageIndex: number;
     slideShowTick: any;
+    blackList$: Array<object>;
 
     constructor(private data: DataService) { }
 
     ngOnInit() {
+        this.blackList$ = this.getLocalStorageBlackList();
         this.data.getImages(this.feed).subscribe(
-            data => this.images$ = data
+            (data) => {
+                this.images$ = data;
+                this.deleteImage(this.blackList$);
+            }
         );
         this.pages$ = [5, 10, 15, 20];
         this.sorts$ = ["Select", "Alphabetical (A-Z)", "Date: (Newest)"];
@@ -104,5 +110,26 @@ export class GalleryComponent implements OnInit {
         if (this.slideShow$ === false) {
             clearInterval(this.slideShowTick);
         }
+    }
+
+    blackList(image: object) {
+        this.blackList$.push(image);
+        this.setLocalStorageBlackList(this.blackList$);
+        this.deleteImage(this.getLocalStorageBlackList());
+    }
+
+    setLocalStorageBlackList(blacklist: Array<object>) {
+        localStorage.setItem('blacklist', JSON.stringify({ blacklist: blacklist }));
+    }
+
+    getLocalStorageBlackList(): Array<object> {
+        let localStorageItem = JSON.parse(localStorage.getItem('blacklist'));
+        return localStorageItem == null ? [] : localStorageItem.blacklist;
+    }
+
+    deleteImage(blacklist: any) {
+        blacklist.forEach((image: any) => {
+            this.images$ = this.images$.filter((element: any) => element.title !== image.title);
+        })
     }
 }
