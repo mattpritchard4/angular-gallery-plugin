@@ -1,0 +1,42 @@
+* Angular Gallery Plugin
+
+** Installation
+   To view this component clone or download this repository. Change
+   into the root directory of the cloned project and run =npm
+   install=.  After packages have finished installing, run =ng serve=
+   and navigate to =localhost:4200=.
+
+   To test this component in a separate Angular project, navigate to
+   the root directory of your project and run =npm install
+   tech-assessment-gallery=. This will install the component into
+   node_modules. Simply =import= the module into your app module to
+   begin using the component (don't forget to add it to the =imports= array!):
+
+   =import { GalleryModule } from 'tech-assessment-gallery';=
+
+   The signature for the component is =<my-gallery></my-gallery>=
+
+   Additionally, navigate to the root =index.html= file in your
+   project and add the following in the =head= tag:
+
+   <link
+   href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+   rel="stylesheet"/>
+
+   The Semantic UI CSS used to style this component will be included
+   in the npm package upon next release with no need to include it in =index.html=.
+
+** Usage
+   This component takes a number of input parameters:
+   - feed: (string) path to json.feed file, or api endpoint
+   - fallback: (string) path to fallback image should a hosted image from the
+     feed fail to load
+   - pagination: (boolean, default: true) Optionally displays
+     pagination and pagination controls
+   - sortable: (boolean, default: true) Optionally allows the user to
+     sort images by title (A-Z) or by date (newest to oldest)
+   - search: (boolean, default: true) Optionally displays a search bar
+   - autoRotateTime: (number, default: 4) Number of seconds between
+     slideshow image rotation
+   - resultsPerPage: (number, default: 10) Determines how many results
+     to display per page.
