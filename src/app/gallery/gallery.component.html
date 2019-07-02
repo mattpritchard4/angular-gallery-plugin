@@ -78,7 +78,12 @@
       [src]="this.currentImage$.url"
       onError="this.src='assets/fa-image.png';"
     />
-    <button class="ui button" (click)="this.toggleSlideshow()">Close</button>
+    <br />
+    <p>{{ this.currentImage$.title }}</p>
+    <p>{{ this.currentImage$.date | date }}</p>
+    <button class="ui button red" (click)="this.toggleSlideshow()">
+      Close
+    </button>
   </div>
   <!--     modal -->
   <div
