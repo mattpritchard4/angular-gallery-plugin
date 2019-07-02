@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'my-gallery',
@@ -10,11 +11,11 @@ export class GalleryComponent implements OnInit {
 
 
     @Input() feed: string;
-    @Input() resultsPerPage: string;
-    @Input() pagination: string;
-    @Input() sortable: string;
-    @Input() search: string;
-    @Input() autoRotateTime: string;
+    @Input() resultsPerPage: number = 10;
+    @Input() pagination: boolean = true;
+    @Input() sortable: boolean = true;
+    @Input() search: boolean = true;
+    @Input() autoRotateTime: number = 4;
 
     paginationResults$: number;
     sortResults$: string;
@@ -28,25 +29,33 @@ export class GalleryComponent implements OnInit {
     sorts$: Array<string>;
     currentImage$: object;
     imageIndex: number;
+    slideShowTick: any;
+    blackList$: Array<object>;
 
     constructor(private data: DataService) { }
 
     ngOnInit() {
+        this.blackList$ = this.getLocalStorageBlackList();
         this.data.getImages(this.feed).subscribe(
-            data => this.images$ = data
+            (data) => {
+                this.images$ = data;
+                this.deleteImage(this.blackList$);
+            }
         );
         this.pages$ = [5, 10, 15, 20];
-        this.sorts$ = ["Select", "Alphabetical", "Date: (Newest)"];
-        this.paginationResults$ = parseInt(this.resultsPerPage, 10);
+        this.sorts$ = ["Select", "Alphabetical (A-Z)", "Date: (Newest)"];
+        this.paginationResults$ = this.resultsPerPage;
         this.sortResults$ = "Select";
-        this.isPaginated$ = JSON.parse(this.pagination);
-        this.isSortable$ = JSON.parse(this.sortable);
-        this.isSearchable$ = JSON.parse(this.search);
+        this.isPaginated$ = this.pagination;
+        this.isSortable$ = this.sortable;
+        this.isSearchable$ = this.search;
         this.isVisible$ = false;
         this.slideShow$ = false;
         this.currentImage$ = null;
         this.imageIndex = 0;
+        this.slideShowTick = null;
     }
+
 
     perPageChangeHandler(event: any) {
         this.paginationResults$ = event.target.value;
@@ -54,7 +63,7 @@ export class GalleryComponent implements OnInit {
 
     sortChangeHandler(event: any) {
         this.sortResults$ = event.target.value;
-        if (this.sortResults$ === "Alphabetical") {
+        if (this.sortResults$ === "Alphabetical (A-Z)") {
             this.images$ =
                 this.images$.sort((left: any, right: any): number => {
                     if (left.title < right.title) return -1;
@@ -97,7 +106,31 @@ export class GalleryComponent implements OnInit {
         this.slideShow$ = !this.slideShow$;
         this.currentImage$ = this.images$[this.imageIndex];
         if (this.slideShow$) {
-            setInterval(() => this.nextImage(this.currentImage$), parseInt(this.autoRotateTime, 10) * 1000);
+            this.slideShowTick = setInterval(() => this.nextImage(this.currentImage$), this.autoRotateTime * 1000);
         }
+        if (this.slideShow$ === false) {
+            clearInterval(this.slideShowTick);
+        }
+    }
+
+    blackList(image: object) {
+        this.blackList$.push(image);
+        this.setLocalStorageBlackList(this.blackList$);
+        this.deleteImage(this.getLocalStorageBlackList());
+    }
+
+    setLocalStorageBlackList(blacklist: Array<object>) {
+        localStorage.setItem('blacklist', JSON.stringify({ blacklist: blacklist }));
+    }
+
+    getLocalStorageBlackList(): Array<object> {
+        let localStorageItem = JSON.parse(localStorage.getItem('blacklist'));
+        return localStorageItem == null ? [] : localStorageItem.blacklist;
+    }
+
+    deleteImage(blacklist: any) {
+        blacklist.forEach((image: any) => {
+            this.images$ = this.images$.filter((element: any) => element.title !== image.title);
+        })
     }
 }
