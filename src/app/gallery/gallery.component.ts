@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DataService } from './data.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'my-gallery',
@@ -31,12 +32,13 @@ export class GalleryComponent implements OnInit {
     imageIndex: number;
     slideShowTick: any;
     blackList$: Array<object>;
+    sub: any;
 
     constructor(private data: DataService) { }
 
     ngOnInit() {
         this.blackList$ = this.getLocalStorageBlackList();
-        this.data.getImages(this.feed).subscribe(
+        this.sub = this.data.getImages(this.feed).subscribe(
             (data) => {
                 this.images$ = data;
                 this.deleteImage(this.blackList$);
@@ -132,5 +134,9 @@ export class GalleryComponent implements OnInit {
         blacklist.forEach((image: any) => {
             this.images$ = this.images$.filter((element: any) => element.title !== image.title);
         })
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 }
