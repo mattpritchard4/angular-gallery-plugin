@@ -57,7 +57,7 @@
         <img
           alt="{{ image.title }}"
           src="{{ image.url }}"
-          onError="this.src='assets/fa-image.png';"
+          (error)="this.updateUrl($event);"
         />
       </a>
       <div class="content">
@@ -76,7 +76,7 @@
     <img
       [alt]="this.currentImage$.title"
       [src]="this.currentImage$.url"
-      onError="this.src='assets/fa-image.png';"
+      onError="this.src='this.fallback$';"
     />
     <br />
     <p>{{ this.currentImage$.title }}</p>
@@ -94,7 +94,7 @@
     <div class="ui image header">
       <img
         [src]="currentImage$.url"
-        onError="this.src='assets/fa-image.png';"
+        onError="this.src='this.fallback$';"
       />
       {{ currentImage$.title }}
       <br />

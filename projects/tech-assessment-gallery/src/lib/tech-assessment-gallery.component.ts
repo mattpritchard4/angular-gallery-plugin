@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { DataService } from './data.service';
+import { DataService } from './tech-assessment-gallery.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Observable } from 'rxjs';
 
 @Component({
     selector: 'my-gallery',
-    templateUrl: './gallery.component.html',
-    styleUrls: ['./gallery.component.scss']
+    templateUrl: './tech-assessment-gallery.component.html',
+    styleUrls: ['./tech-assessment-gallery.component.scss']
 })
-export class GalleryComponent implements OnInit, OnDestroy {
+export class TechAssessmentGalleryComponent implements OnInit, OnDestroy {
 
 
     @Input() feed: string;
@@ -57,7 +57,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
         this.currentImage$ = null;
         this.imageIndex = 0;
         this.slideShowTick = null;
-
     }
 
 

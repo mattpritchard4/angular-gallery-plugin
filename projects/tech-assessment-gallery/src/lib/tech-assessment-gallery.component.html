@@ -1,0 +1,121 @@
+<!-- component controls -->
+<div class="controls">
+    <div *ngIf="isPaginated$" class="page-controls">
+        <p>ITEMS:</p>
+        <select
+            (change)="perPageChangeHandler($event)"
+            [value]="paginationResults$"
+            class="ui fluid normal dropdown"
+        >
+            <option *ngFor="let page of pages$" value="{{ page }}"
+            >{{ page }}
+            </option>
+        </select>
+    </div>
+    <div *ngIf="isSortable$" class="sort-controls">
+        <p>SORT:</p>
+        <select
+            (change)="sortChangeHandler($event)"
+            [value]="sortResults$"
+            class="ui fluid normal dropdown"
+        >
+            <option *ngFor="let sort of sorts$" value="{{ sort }}">{{ sort }}</option>
+        </select>
+    </div>
+    <div>
+        <button class="ui button blue" (click)="this.toggleSlideshow()">
+            Slide Show
+        </button>
+    </div>
+    <div class="ui search" *ngIf="isSearchable$">
+        <p>Search:</p>
+        <input
+            class="prompt"
+            type="text"
+            placeholder="Search for an image..."
+            [(ngModel)]="term"
+        />
+    </div>
+    <pagination-controls
+        *ngIf="isPaginated$"
+        (pageChange)="p = $event"
+    ></pagination-controls>
+</div>
+
+<!-- main gallery -->
+<div>
+    <div *ngIf="slideShow$ === false" class="galleryGrid">
+        <div
+            *ngFor="
+                    let image of images$
+                    | filter: term
+                    | paginate: { itemsPerPage: paginationResults$, currentPage: p }
+                    "
+            class="item ui card"
+        >
+            <a class="image" href="#" (click)="this.showModal(image)">
+                <img
+                    alt="{{ image.title }}"
+                    src="{{ image.url }}"
+                    (error)="this.updateUrl($event);"
+                />
+            </a>
+            <div class="content">
+                <a class="header">{{ image.title }}</a>
+                <div class="meta">
+                    <a>Date: {{ image.date | date }}</a>
+                </div>
+            </div>
+            <button class="ui button" (click)="this.blackList(this.image)">
+                Delete
+            </button>
+        </div>
+    </div>
+    <!--     slideshow -->
+    <div *ngIf="slideShow$" class="slideshow">
+        <img
+            [alt]="this.currentImage$.title"
+            [src]="this.currentImage$.url"
+            (error)="this.updateUrl($event);"
+        />
+        <br />
+        <p>{{ this.currentImage$.title }}</p>
+        <p>{{ this.currentImage$.date | date }}</p>
+        <button class="ui button red" (click)="this.toggleSlideshow()">
+            Close
+        </button>
+    </div>
+    <!--     modal -->
+    <div
+        class="ui basic modal transition dimmer page visible active"
+        style="display: flex !important; background-color: rgba(0,0,0,.85); width: 100%;"
+        *ngIf="isVisible$"
+    >
+        <div class="ui image header">
+            <img
+                [src]="currentImage$.url"
+                (error)="this.updateUrl($event);"
+            />
+            {{ currentImage$.title }}
+            <br />
+            {{ currentImage$.date | date }}
+        </div>
+        <div class="actions">
+            <div
+                class="ui green ok inverted button"
+                (click)="this.prevImage(currentImage$)"
+            >
+                Prev
+            </div>
+            <div
+                class="ui green ok inverted button"
+                (click)="this.nextImage(currentImage$)"
+            >
+                Next
+            </div>
+        </div>
+        <div class="ui button" (click)="isVisible$ = !isVisible$">
+            Close
+        </div>
+    </div>
+</div>

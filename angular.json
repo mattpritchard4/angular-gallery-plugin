@@ -133,6 +133,41 @@
           }
         }
       }
+    },
+    "tech-assessment-gallery": {
+      "root": "projects/tech-assessment-gallery",
+      "sourceRoot": "projects/tech-assessment-gallery/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/tech-assessment-gallery/tsconfig.lib.json",
+            "project": "projects/tech-assessment-gallery/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tech-assessment-gallery/src/test.ts",
+            "tsConfig": "projects/tech-assessment-gallery/tsconfig.spec.json",
+            "karmaConfig": "projects/tech-assessment-gallery/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tech-assessment-gallery/tsconfig.lib.json",
+              "projects/tech-assessment-gallery/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "gallery"
