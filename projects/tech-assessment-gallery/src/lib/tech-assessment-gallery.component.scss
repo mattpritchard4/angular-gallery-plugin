@@ -1,0 +1,92 @@
+// Resets card margins for first and last child.  Semantic UI has
+// these set to zero for some reason, and the appearance is not
+// uniform.
+.ui.card:first-child {
+    margin-top: 14px;
+}
+
+.ui.card:last-child {
+    margin-bottom: 14px;
+}
+
+
+// Styles for gallery controls
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    div {
+        align-items: baseline;
+        display: flex;
+        padding: 10px;
+        select, input {
+            margin-left: 10px;
+        }
+    }
+}
+
+// Adjusts image size in modal view
+div.ui.image.header {
+    width: 30%;
+    img {
+        width: 100%;
+    }
+}
+
+// Main Gallery styling
+.galleryGrid {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    a {
+        max-height: 220px;
+        overflow: hidden;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.slideshow {
+    text-align: center;
+}
+
+// adjustments for screen sizes
+@media screen and (max-width: 1300px) {
+    div.ui.image.header {
+        width: 40%;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .galleryGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+    div.ui.image.header {
+        width: 50%;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.ui.image.header {
+        width: 60%;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    div.ui.image.header {
+        width: 80%;
+        img {
+            width: 100%;
+        }
+    }
+}
